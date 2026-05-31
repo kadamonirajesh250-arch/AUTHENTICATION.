@@ -1,0 +1,7 @@
+# Ignore personal assignment files and documents
+*.docx
+*.pdf
+
+# Ignore system/OS files
+Thumbs.db
+.DS_Store

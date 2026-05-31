@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PilgrimGuide - Your premium spiritual assistant. Explore timings, tickets, accommodation, food guides, nearby attractions, and budget estimators for India's historic temples.">
+    <meta name="keywords" content="pilgrim guide, temple guide, Tirupati, Madurai, Varanasi, spiritual assistant, temple timings, budget calculator">
+    <title>PilgrimGuide - Smart Temple Assistant</title>
+    
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Vanilla CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===== AUTHENTICATION SECTION ===== -->
+    <div id="auth-wrapper" class="auth-wrapper min-h-screen">
+        <div class="auth-overlay"></div>
+
+        <div class="auth-card-container">
+            <div class="auth-header">
+                <div class="auth-logo">🛕</div>
+                <h1 class="auth-title">PilgrimGuide</h1>
+                <p class="auth-subtitle">Your Sacred Journey Companion</p>
+            </div>
+
+            <!-- VIEW: LOGIN -->
+            <div id="view-login" class="auth-view fade-in">
+                <h2 class="view-title">Welcome Back</h2>
+                <form id="form-login" class="auth-form">
+                    <div class="form-group">
+                        <label for="log-email">Email Address</label>
+                        <input id="log-email" type="email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="log-pass">Password</label>
+                        <div class="password-input-wrapper">
+                            <input id="log-pass" type="password" placeholder="••••••••" required>
+                            <button type="button" onclick="togglePassword('log-pass', 'eye-log')" class="toggle-password-btn" aria-label="Toggle Password Visibility">
+                                <span id="eye-log">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="button" onclick="switchAuthView('view-forgot')" class="forgot-pass-btn">Forgot Password?</button>
+                    </div>
+
+                    <p id="msg-login" class="hidden auth-message error-msg"></p>
+
+                    <button type="submit" class="btn btn-primary auth-submit-btn">Sign In</button>
+                </form>
+                <p class="auth-switch-text">Don't have an account? <button onclick="switchAuthView('view-signup')" class="switch-link-btn">Sign Up</button></p>
+            </div>
+
+            <!-- VIEW: SIGNUP -->
+            <div id="view-signup" class="auth-view fade-in hidden">
+                <h2 class="view-title">Create Account</h2>
+                <form id="form-signup" class="auth-form">
+                    <div class="form-group">
+                        <label for="reg-name">Username / Full Name</label>
+                        <input id="reg-name" type="text" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-gender">Gender</label>
+                            <select id="reg-gender" required>
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-mobile">Mobile (10 digits)</label>
+                            <input id="reg-mobile" type="number" placeholder="9876543210" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <input id="reg-email" type="email" placeholder="name@domain.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-pass">Create Password</label>
+                        <div class="password-input-wrapper">
+                            <input id="reg-pass" type="password" placeholder="••••••••" required>
+                            <button type="button" onclick="togglePassword('reg-pass', 'eye-reg1')" class="toggle-password-btn" aria-label="Toggle Password Visibility"><span id="eye-reg1">👁️</span></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-pass2">Confirm Password</label>
+                        <div class="password-input-wrapper">
+                            <input id="reg-pass2" type="password" placeholder="••••••••" required>
+                            <button type="button" onclick="togglePassword('reg-pass2', 'eye-reg2')" class="toggle-password-btn" aria-label="Toggle Password Visibility"><span id="eye-reg2">👁️</span></button>
+                        </div>
+                    </div>
+
+                    <p id="msg-signup" class="hidden auth-message"></p>
+
+                    <button type="submit" class="btn btn-success auth-submit-btn">Register</button>
+                </form>
+                <p class="auth-switch-text">Already have an account? <button onclick="switchAuthView('view-login')" class="switch-link-btn">Sign In</button></p>
+            </div>
+
+            <!-- VIEW: FORGOT PASSWORD -->
+            <div id="view-forgot" class="auth-view fade-in hidden">
+                <h2 class="view-title">Reset Password</h2>
+                <p class="view-description">Enter your email to receive a simulated 4-digit OTP.</p>
+                <form id="form-forgot" class="auth-form">
+                    <div class="form-group">
+                        <label for="for-email">Registered Email</label>
+                        <input id="for-email" type="email" placeholder="name@domain.com" required>
+                    </div>
+                    <p id="msg-forgot" class="hidden auth-message error-msg"></p>
+                    <button type="submit" class="btn btn-info auth-submit-btn">Send OTP</button>
+                </form>
+                <button onclick="switchAuthView('view-login')" class="btn-back-login">← Back to Login</button>
+            </div>
+
+            <!-- VIEW: VERIFY OTP -->
+            <div id="view-otp" class="auth-view fade-in hidden">
+                <h2 class="view-title">Verify OTP</h2>
+                <p class="view-description">Enter the 4-digit code displayed in the system alert.</p>
+                <form id="form-otp" class="auth-form">
+                    <div class="form-group">
+                        <label for="otp-input">Enter OTP</label>
+                        <input id="otp-input" type="number" placeholder="••••" class="otp-number-input" required>
+                    </div>
+                    <p id="msg-otp" class="hidden auth-message error-msg"></p>
+                    <button type="submit" class="btn btn-success auth-submit-btn">Verify & Proceed</button>
+                </form>
+            </div>
+
+            <!-- VIEW: RESET PASSWORD -->
+            <div id="view-reset" class="auth-view fade-in hidden">
+                <h2 class="view-title">Create New Password</h2>
+                <form id="form-reset" class="auth-form">
+                    <div class="form-group">
+                        <label for="new-pass">New Password</label>
+                        <div class="password-input-wrapper">
+                            <input id="new-pass" type="password" placeholder="••••••••" required>
+                            <button type="button" onclick="togglePassword('new-pass', 'eye-new1')" class="toggle-password-btn" aria-label="Toggle Password Visibility"><span id="eye-new1">👁️</span></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-pass2">Confirm New Password</label>
+                        <div class="password-input-wrapper">
+                            <input id="new-pass2" type="password" placeholder="••••••••" required>
+                            <button type="button" onclick="togglePassword('new-pass2', 'eye-new2')" class="toggle-password-btn" aria-label="Toggle Password Visibility"><span id="eye-new2">👁️</span></button>
+                        </div>
+                    </div>
+                    <p id="msg-reset" class="hidden auth-message"></p>
+                    <button type="submit" class="btn btn-primary auth-submit-btn">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN APPLICATION SECTION ===== -->
+    <div id="website-view" class="website-view hidden flex-col min-h-screen w-full">
+        
+        <!-- HEADER NAVBAR -->
+        <header class="main-header">
+            <div class="nav-container container">
+                <div class="logo-wrapper" onclick="renderContent('home')">
+                    <span class="logo-icon">🛕</span>
+                    <span class="logo-text">PilgrimGuide</span>
+                </div>
+
+                <!-- Desktop navigation -->
+                <ul id="main-navbar" class="main-navbar-links">
+                    <!-- Nav items rendered dynamically -->
+                </ul>
+
+                <div class="header-user-actions">
+                    <div id="nav-user-name" title="User Profile" class="user-avatar-bubble"></div>
+                    
+                    <button id="mobile-menu-btn" class="mobile-toggle-btn" aria-label="Toggle Navigation Menu">
+                        ☰
+                    </button>
+                    <button onclick="authManager.logout()" class="btn-logout-desktop">Logout</button>
+                </div>
+            </div>
+
+            <!-- Mobile subbar containing temple select & logout -->
+            <div class="mobile-subbar">
+                <div class="mobile-subbar-container container">
+                    <button onclick="authManager.logout()" class="btn-logout-mobile">Logout</button>
+                    <div class="temple-select-wrapper">
+                        <label for="temple-select" class="sr-only">Choose Temple</label>
+                        <select id="temple-select" onchange="changeTemple(this.value)">
+                            <option value="Tirupati">Tirupati</option>
+                            <option value="Madurai">Madurai</option>
+                            <option value="Varanasi">Varanasi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile menu dropdown -->
+            <div id="mobile-menu" class="mobile-menu-dropdown hidden">
+                <!-- Nav items rendered dynamically -->
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main id="app-container" class="main-app-content container">
+            <div class="landing-welcome">
+                <h1 class="welcome-title">Welcome to Your Spiritual Guide</h1>
+                <p class="welcome-text">Loading sacred temple database...</p>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <p>&copy; 2026 PilgrimGuide. Crafted for elegant spiritual guidance with JavaScript Modules I-VIII.</p>
+        </footer>
+    </div>
+
+    <!-- Core Javascript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
